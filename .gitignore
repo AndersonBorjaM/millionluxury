@@ -1,52 +1,69 @@
-# Prerequisites
-*.d
+# Logs
+*.log
+*.tlog
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+# Compilación
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
 
-# Linker output
-*.ilk
-*.map
-*.exp
+# Archivos generados por Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
 
-# Precompiled Headers
-*.gch
-*.pch
+# Paquetes
+packages/
+*.nupkg
+*.snupkg
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+# Configuración de la depuración
+*.launchSettings.json
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+# Archivos de caché
+*.pidb
+*.cache
+*.tmp
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+# Archivos de publicación
+publish/
+wwwroot/
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de la herramienta de generación de cobertura de código
+coverage/
+*.coverage
+*.coveragexml
+
+# Archivos de dependencias locales
+project.lock.json
+global.json
+
+# Archivos de configuración de la herramienta dotnet
+*.dotnet-tools.json
+
+# Archivos relacionados con Rider y ReSharper
+.idea/
+*.sln.iml
+
+# Archivos específicos del contenedor
+docker-compose.override.yml
+
+# Archivos de configuración del IDE
+*.ipch
+*.aps
 *.pdb
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Archivos temporales y de pruebas
+TestResults/
