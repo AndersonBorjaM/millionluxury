@@ -25,7 +25,7 @@ IdOwner INT FOREIGN KEY REFERENCES Owner(IdOwner) NOT NULL
 CREATE TABLE [PropertyImage](
 IdPropertyImage INT PRIMARY KEY IDENTITY(1,1),
 IdProperty INT FOREIGN KEY REFERENCES Property(IdProperty) NOT NULL,
-FileName VARBINARY(MAX),
+FileProperty VARBINARY(MAX),
 Enabled BIT
 );
 
@@ -37,3 +37,7 @@ Value DECIMAL(12,3) NOT NULL,
 Tax VARCHAR(250) NOT NULL,
 IdProperty INT FOREIGN KEY REFERENCES Property(IdProperty) NOT NULL
 );
+
+
+INSERT INTO [milliondatabase].[dbo].[User] ([UserName] ,[PasswordHash])
+VALUES('Anderson', '$2a$11$BiAfDJ1x41SrMUwq97SLyOfJVF1CGoMLEp5j/smKRFsEjqq3qqJwS')

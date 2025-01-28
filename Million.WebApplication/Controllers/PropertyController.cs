@@ -48,7 +48,7 @@ namespace Million.WebApplication.Controllers
         /// Método para consultar las propiedades y filtrarlas.
         /// </summary>
         /// <param name="filters">Información de los filtros a aplicar.</param>
-        /// <returns></returns>
+        /// <returns>Listado de propiedades.</returns>
         [HttpPost("GetPropertiesWithFilter")]
         [Authorize]
         public async Task<IActionResult> GetPropertiesAsync([FromBody] FiltersDTO filters) => Ok(await _propertyService.GetPropertiesAsync(filters));
