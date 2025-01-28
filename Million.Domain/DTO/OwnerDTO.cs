@@ -6,7 +6,7 @@ namespace Million.Domain.DTO
     {
         public string Name { get; set; }
         public string Address { get; set; }
-        public IFormFile? Photo { get; set; }
+        public IFormFile? Photo { get; set; } = null;
         public DateTime Birthday { get; set; }
     }
 }

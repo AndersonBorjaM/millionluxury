@@ -1,11 +1,16 @@
-﻿using FluentValidation;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using FluentValidation;
 using Million.Domain.DTO;
 
 namespace Million.Domain.Validations
 {
-    public class CreatePropertyValidation : AbstractValidator<PropertyDTO>
+    public class UpdatePropertyValidation : AbstractValidator<UpdatePropertyDTO>
     {
-        public CreatePropertyValidation()
+        public UpdatePropertyValidation()
         {
             RuleFor(x => x.Address).NotNull().NotEmpty().WithMessage("The field Address is required.");
             RuleFor(x => x.Address).NotNull().MaximumLength(500).WithMessage("The maximum length of the Address field is 500.");
@@ -23,10 +28,6 @@ namespace Million.Domain.Validations
             RuleFor(x => x.Name).NotNull().NotEmpty().WithMessage("The field Name is required.");
             RuleFor(x => x.Name).NotNull().MaximumLength(250).WithMessage("The maximum length of the Name field is 250.");
 
-            RuleFor(x => x).Must(ValidateOwner).WithMessage("The information from Owner is required.");
         }
-
-        private bool ValidateOwner(PropertyDTO dTO)
-        => !(dTO.Owner == null && dTO.IdOwner == 0);
     }
 }

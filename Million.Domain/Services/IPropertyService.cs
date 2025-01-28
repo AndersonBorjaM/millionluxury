@@ -5,6 +5,10 @@ namespace Million.Domain.Services
 {
     public interface IPropertyService 
     {
-        Task<Property> CreateProperty(PropertyDTO property);
+        Task<Property> CreatePropertyAsync(PropertyDTO property);
+        Task<IEnumerable<Property>> GetPropertiesAsync(FiltersDTO filters);
+        Task<Property> ChangePricePropertyByIdAsync(ChangePricePropertyDTO changePrice);
+        Task<Property> ChangePricePropertyByCodeInternalAsync(ChangePricePropertyDTO changePrice);
+        Task<Property> UpdatePropertyAsync(UpdatePropertyDTO updateProperty);
     }
 }

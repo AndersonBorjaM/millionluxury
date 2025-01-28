@@ -83,7 +83,7 @@ namespace Million.Repository.Database
                 builder.Property(c => c.IdPropertyImage).IsRequired();
                 builder.Property(c => c.IdProperty).IsRequired();
                 builder.Property(c => c.Enabled);
-                builder.Property(c => c.File);
+                builder.Property(c => c.FileProperty);
 
             });
 

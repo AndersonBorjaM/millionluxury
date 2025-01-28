@@ -7,6 +7,7 @@ using Million.Domain.Repositories;
 using Million.Domain.Services;
 using Million.Repository.Database;
 using Million.Repository.Repositories;
+using Million.WebApplication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,10 +17,17 @@ builder.Services.AddDbContext<MillionContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
+builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPropertyImageRepository, PropertyImageRepository>();
+builder.Services.AddScoped<IPropertyTraceRepository, PropertyTraceRepository>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPropertyService, PropertyService>();
+builder.Services.AddScoped<IOwnerService, OwnerService>();
+builder.Services.AddScoped<IPropertyImageService, PropertyImageService>();
+builder.Services.AddScoped<IPropertyTraceService, PropertyTraceService>();
 
 // Configurar autenticación con JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -59,6 +67,11 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
 app.MapControllers();
 
 app.Run();
+
+
+public partial class Program { }

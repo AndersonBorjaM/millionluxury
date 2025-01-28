@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using Million.Domain.Models;
 
 namespace Million.Domain.DTO
 {
@@ -15,7 +12,8 @@ namespace Million.Domain.DTO
         public string Year { get; set; }
         public int IdOwner { get; set; }
 
-        public IEnumerable<PropertyTraceDTO> PropertyTraces { get; set; }
-        public OwnerDTO Owner { get; set; }
+        public IEnumerable<PropertyTraceDTO>? PropertyTraces { get; set; } = new List<PropertyTraceDTO>();
+        
+        public OwnerDTO? Owner { get; set; }
     }
 }

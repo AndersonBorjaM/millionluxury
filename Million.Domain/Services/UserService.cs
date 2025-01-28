@@ -24,13 +24,19 @@ namespace Million.Domain.Services
             this._configuration = configuration;
         }
 
+        /// <summary>
+        /// Método para registrar un nuevo usuario.
+        /// </summary>
+        /// <param name="user">Información del usuario</param>
+        /// <returns>Informacion del usuario registrado.</returns>
+        /// <exception cref="ArgumentException">Mensajes de error en el caso de información invalida.</exception>
         public async Task<User> RegisterUser(RegisterUserDTO user)
         {
             RegisterUserValidation validationRules = new RegisterUserValidation();
             var resultValidation = validationRules.Validate(user);
 
-            if (resultValidation.IsValid)
-                throw new ArgumentException(resultValidation.Errors.Select(x => x.ErrorMessage).Aggregate((current, next) => $"{current}, {next}"));
+            if (!resultValidation.IsValid)
+                throw new ArgumentException(resultValidation.Errors.Select(x => x.ErrorMessage).Aggregate((current, next) => $"{current}\n{next}"));
 
             if ((await _userRepository.GetUserByUserName(user.UserName)) != null)
                 throw new ArgumentException("The user is already registered");
@@ -38,6 +44,13 @@ namespace Million.Domain.Services
             return await _userRepository.CreateAsync(_mapper.Map<User>(user));
         }
 
+
+        /// <summary>
+        /// Método para autenticar un usuario.
+        /// </summary>
+        /// <param name="userDto">Información del usuario que se esta autenticando.</param>
+        /// <returns>Token</returns>
+        /// <exception cref="UnauthorizedAccessException"></exception>
         public async Task<string> LoginUser(LoginUserDTO userDto)
         {
             var user = await _userRepository.GetUserByUserName(userDto.UserName);
@@ -48,6 +61,11 @@ namespace Million.Domain.Services
             return GenerateJwtToken(userDto);
         }
 
+        /// <summary>
+        /// Método para generar el token de un usuario.
+        /// </summary>
+        /// <param name="user">Información del usuario</param>
+        /// <returns>Token</returns>
         private string GenerateJwtToken(LoginUserDTO user)
         {
             var claims = new[]

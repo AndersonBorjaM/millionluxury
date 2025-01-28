@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace Million.Domain.DTO
 {
-    public class PropertyTraceDTO
+    public class ChangePricePropertyDTO
     {
-        public DateTime? DateSale { get; set; }
-        public string Name { get; set; }
-        public decimal Value { get; set; }
-        public string Tax { get; set; }
         public int? IdProperty { get; set; }
-
+        public string CodeInternal { get; set; } = string.Empty;
+        public decimal NewPrice { get; set; }
     }
 }

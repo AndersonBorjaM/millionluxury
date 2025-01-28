@@ -9,9 +9,13 @@ namespace Million.Domain.Config
     {
         public MapperConfig()
         {
-            CreateMap<RegisterUserDTO, User>().ReverseMap();
+            CreateMap<RegisterUserDTO, User>()
+                .ForMember(x => x.UserName, c => c.MapFrom(t => t.UserName))
+                .ForMember(x => x.PasswordHash, c => c.MapFrom(t => BCrypt.Net.BCrypt.HashPassword(t.PasswordHash)))
+                .ReverseMap();
 
-            CreateMap<PropertyTrace, PropertyTrace>().ReverseMap();
+            CreateMap<PropertyTraceDTO, PropertyTrace>().ReverseMap();
+            CreateMap<PropertyDTO, Property>().ReverseMap();
 
             CreateMap<LoginUserDTO, User>()
                 .ForMember(x => x.UserName, c => c.MapFrom(t => t.UserName))
@@ -28,14 +32,17 @@ namespace Million.Domain.Config
             CreateMap<PropertyImageDTO, PropertyImage>()
                 .ForMember(x => x.IdProperty, c => c.MapFrom(t => t.IdProperty))
                 .ForMember(x => x.Enabled, c => c.MapFrom(t => t.Enabled))
-                .ForMember(x => x.File, c => c.MapFrom(t => ConvertToArrayBytes(t.File)))
+                .ForMember(x => x.FileProperty, c => c.MapFrom(t => ConvertToArrayBytes(t.FileProperty)))
                 .ReverseMap();
         }
 
-        private byte[] ConvertToArrayBytes(IFormFile? photo)
+        private byte[] ConvertToArrayBytes(IFormFile? file)
         {
+            if (file == null)
+                return null;
+
             using var memoryStream = new MemoryStream();
-            photo.CopyTo(memoryStream);
+            file.CopyTo(memoryStream);
             return memoryStream.ToArray();
         }
     }
