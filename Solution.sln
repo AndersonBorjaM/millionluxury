@@ -5,11 +5,13 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Million.Domain", "Million.Domain\Million.Domain.csproj", "{8D77AD52-A3C6-4957-B0EA-8D4C368DFF55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Million.Repository", "Million.Repository\Million.Repository.csproj", "{E3202794-B8BE-4B11-A8E8-CE330ABE970D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Million.Infrastructure", "Million.Infrastructure\Million.Infrastructure.csproj", "{E3202794-B8BE-4B11-A8E8-CE330ABE970D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Million.WebApplication", "Million.WebApplication\Million.WebApplication.csproj", "{3C5D511F-01D9-41F5-A79E-A690280E18E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Million.WebApi", "Million.WebApi\Million.WebApi.csproj", "{3C5D511F-01D9-41F5-A79E-A690280E18E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Million.WebApplication.Test", "Million.WebApplication.Test\Million.WebApplication.Test.csproj", "{D4EE68A4-9CCE-477A-B331-52292AA9B35B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Million.WebApi.NUnitTest", "Million.WebApi.NUnitTest\Million.WebApi.NUnitTest.csproj", "{D4EE68A4-9CCE-477A-B331-52292AA9B35B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Million.Application", "Million.Application\Million.Application.csproj", "{93B4A1F3-14AC-4ED4-8793-127A85151671}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D4EE68A4-9CCE-477A-B331-52292AA9B35B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4EE68A4-9CCE-477A-B331-52292AA9B35B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4EE68A4-9CCE-477A-B331-52292AA9B35B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93B4A1F3-14AC-4ED4-8793-127A85151671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93B4A1F3-14AC-4ED4-8793-127A85151671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93B4A1F3-14AC-4ED4-8793-127A85151671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93B4A1F3-14AC-4ED4-8793-127A85151671}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
