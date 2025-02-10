@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Million.Application.Properties.CreateProperty;
 
 namespace Million.WebApplication.Controllers
 {
@@ -7,9 +9,11 @@ namespace Million.WebApplication.Controllers
     [Route("api/[controller]")]
     public class PropertyController : ControllerBase
     {
+        private readonly ISender _sender;
 
-        public PropertyController()
+        public PropertyController(ISender sender)
         {
+            this._sender = sender;
         }
 
         /// <summary>
@@ -17,9 +21,34 @@ namespace Million.WebApplication.Controllers
         /// </summary>
         /// <param name="property">Información de la propiedad.</param>
         /// <returns>Información de la propiedad registrada.</returns>
-        //[HttpPost("CreateProperty")]
+        [HttpPost("CreateProperty")]
         //[Authorize]
-        //public async Task<IActionResult> CreateProperty([FromBody] PropertyDTO property) => Ok(await _propertyService.CreatePropertyAsync(property));
+        public async Task<IActionResult> CreateProperty([FromBody] CreateNewPropertyRequest property, CancellationToken cancellationToken)
+        {
+            var result = await _sender.Send(new CreateNewPropertyCommand(
+                new PropertyDto
+                {
+                    Address = property.Address,
+                    Name = property.Name,
+                    CodeInternal = property.CodeInternal,
+                    Price = property.Price,
+                    Year = property.Year
+                },
+                new OwnerDto
+                {
+                    Address = property.Owner.Address,
+                    Birthday = property.Owner.Birthday,
+                    Name = property.Owner.Name,
+                    IdOwner = property.Owner.IdOwner
+                }
+                ), cancellationToken);
+
+            if (result.IsFailure)
+                return NotFound(result.Error);
+
+
+            return Ok(result.Value);
+        }
 
         /// <summary>
         /// Método para cambiar el precio de una propiedad basado en el ID de la propiedad.
