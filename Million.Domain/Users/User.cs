@@ -4,7 +4,7 @@ namespace Million.Domain.Users
 {
     public sealed class User : Entity<UserId>
     {
-        private User(
+        public User(
             UserId id,
             UserName userName,
             PasswordHash passwordHash
@@ -15,8 +15,8 @@ namespace Million.Domain.Users
             PasswordHash = passwordHash;
         }
 
-        public UserName UserName { get; private set; }
-        public PasswordHash PasswordHash { get; private set; }
+        public UserName? UserName { get; private set; }
+        public PasswordHash? PasswordHash { get; private set; }
 
     }
 }

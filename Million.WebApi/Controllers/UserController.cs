@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Million.Application.Users.LoginUser;
 
 namespace Million.WebApplication.Controllers
 {
@@ -6,9 +9,11 @@ namespace Million.WebApplication.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
+        private readonly ISender _sender;
 
-        public UserController()
+        public UserController(ISender sender)
         {
+            this._sender = sender;
         }
 
         /// <summary>
@@ -24,7 +29,16 @@ namespace Million.WebApplication.Controllers
         /// </summary>
         /// <param name="loginUser">Información del usuario.</param>
         /// <returns>Token</returns>
-        //[HttpPost("Login")]
-        //public async Task<IActionResult> Login([FromBody] LoginUserDTO loginUser) => Ok(await _userService.LoginUser(loginUser));
+        [HttpPost("Login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginUserRequest loginUser, CancellationToken cancellationToken)
+        {
+            var result = await _sender.Send(new LoginCommand(loginUser.UserNme, loginUser.Password), cancellationToken);
+            
+            if (result.IsFailure)
+                return Unauthorized(result.Error);
+
+           return Ok(result.Value);
+        }
     }
 }

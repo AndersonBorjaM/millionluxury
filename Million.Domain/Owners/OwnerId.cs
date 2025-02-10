@@ -1,4 +1,4 @@
 ﻿namespace Million.Domain.Owners
 {
-    public record OwnerId(string Value);
+    public record OwnerId(int Value);
 }
