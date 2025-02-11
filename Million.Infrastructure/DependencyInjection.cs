@@ -4,8 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Million.Domain.Abstractions;
 using Million.Domain.Owners;
 using Million.Domain.Properties;
+using Million.Domain.PropertyImages;
 using Million.Domain.Users;
-using Million.Infrastructure.Authentication;
 using Million.Infrastructure.Repositories;
 using Million.Repository.Database;
 
@@ -23,10 +23,9 @@ namespace Million.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
+            services.AddScoped<IPropertyImageRepository, PropertyImageRepository>();
 
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<MillionContext>());
-
-            
 
             return services;
         }
