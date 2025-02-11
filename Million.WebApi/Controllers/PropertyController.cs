@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Million.Application.Properties.ChangePrice;
 using Million.Application.Properties.CreateProperty;
+using Million.Application.Properties.ListPropertyWithFilters;
 using Million.Application.Properties.UpdateProperty;
 
 namespace Million.WebApplication.Controllers
@@ -93,16 +94,23 @@ namespace Million.WebApplication.Controllers
 
             return Ok(result.Value);
         }
-        
+
 
         /// <summary>
         /// Método para consultar las propiedades y filtrarlas.
         /// </summary>
         /// <param name="filters">Información de los filtros a aplicar.</param>
         /// <returns>Listado de propiedades.</returns>
-        //[HttpPost("GetPropertiesWithFilter")]
+        [HttpPost("GetPropertiesWithFilter")]
         //[Authorize]
-        //public async Task<IActionResult> GetPropertiesAsync([FromBody] FiltersDTO filters) => Ok(await _propertyService.GetPropertiesAsync(filters));
+        public async Task<IActionResult> GetPropertiesAsync([FromBody] ListPropertiesRequest filters) 
+        {
+           var result = await  _sender.Send(new ListPropertiesWithFilterQuery(filters.Name, filters.Address, filters.Price, filters.Year, filters.CodeInternal));
+
+            if (result.IsFailure) return NotFound(result.Error);
+
+            return Ok(result.Value);
+        }
 
 
     }

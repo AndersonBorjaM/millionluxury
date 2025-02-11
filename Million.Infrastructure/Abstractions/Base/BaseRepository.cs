@@ -64,5 +64,18 @@ namespace Million.Infrastructure.Abstractions.Base
         public async Task<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default)
         => await _table.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
 
+
+        public async Task<IQueryable<TEntity>> GetAsync(BaseSpecification<TEntity>? specification = null)
+        {
+            IQueryable<TEntity> query = _table;
+
+            if (specification != null)
+            {
+                query = query.Where(specification.ToExpression());
+            }
+
+            return await Task.FromResult(query);
+        }
+
     }
 }
