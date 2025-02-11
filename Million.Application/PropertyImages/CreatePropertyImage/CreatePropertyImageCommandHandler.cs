@@ -38,7 +38,7 @@ namespace Million.Application.PropertyImages.CreatePropertyImage
         private byte[] ConvertToArrayBytes(IFormFile? file)
         {
             if (file is null)
-                return null;
+                return new byte[0];
 
             using var memoryStream = new MemoryStream();
             file.CopyTo(memoryStream);
