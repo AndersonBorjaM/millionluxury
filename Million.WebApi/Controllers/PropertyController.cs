@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Million.Application.Properties.ChangePrice;
 using Million.Application.Properties.CreateProperty;
+using Million.Application.Properties.UpdateProperty;
 
 namespace Million.WebApplication.Controllers
 {
@@ -23,7 +24,7 @@ namespace Million.WebApplication.Controllers
         /// <param name="property">Información de la propiedad.</param>
         /// <returns>Información de la propiedad registrada.</returns>
         [HttpPost("CreateProperty")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> CreateProperty([FromBody] CreateNewPropertyRequest property, CancellationToken cancellationToken)
         {
             var result = await _sender.Send(new CreateNewPropertyCommand(
@@ -52,22 +53,12 @@ namespace Million.WebApplication.Controllers
         }
 
         /// <summary>
-        /// Método para cambiar el precio de una propiedad basado en el ID de la propiedad.
-        /// </summary>
-        /// <param name="changePrice">ID Propiedad y nuevo precio.</param>
-        /// <returns>Información de la propiedad modificada.</returns>
-        //[HttpPatch("ChangePricePropertyById")]
-        //[Authorize]
-        //public async Task<IActionResult> ChangePricePropertyByIdAsync([FromBody] ChangePricePropertyDTO changePrice) => Ok(await _propertyService.ChangePricePropertyByIdAsync(changePrice));
-
-
-        /// <summary>
         /// Método para cambiar el precio de una propiedad basado en el codigo interno de la propiedad.
         /// </summary>
         /// <param name="changePrice">Codigo de la propiedad y nuevo precio</param>
         /// <returns>Información de la propiedad modificada</returns>
         [HttpPatch("ChangePricePropertyById")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> ChangePricePropertyByCodeInternalAsync([FromBody] ChangePriceRequest changePrice, CancellationToken cancellationToken = default)
         {
             var result = await _sender.Send(new ChangePriceCommand(changePrice.NewPrice, changePrice.IdProperty), cancellationToken);
@@ -80,6 +71,31 @@ namespace Million.WebApplication.Controllers
         }
 
         /// <summary>
+        /// Método para modificar una propiedad.
+        /// </summary>
+        /// <param name="updateProperty">Información de la propiedad.</param>
+        /// <returns>Información modificada.</returns>
+        [HttpPatch("UpdateProperty")]
+        [Authorize]
+        public async Task<IActionResult> UpdatePropertyAsync([FromBody] UpdatePropertyRequest updateProperty, CancellationToken cancellationToken) 
+        {
+            var result = await _sender.Send(new UpdatePropertyCommand(
+                updateProperty.PropertyId,
+                updateProperty.Name,
+                updateProperty.Address,
+                updateProperty.Price,
+                updateProperty.Year,
+                updateProperty.CodeInternal,
+                updateProperty.IdOwner
+                ), cancellationToken);
+
+            if (result.IsFailure) return NotFound(result.Error);
+
+            return Ok(result.Value);
+        }
+        
+
+        /// <summary>
         /// Método para consultar las propiedades y filtrarlas.
         /// </summary>
         /// <param name="filters">Información de los filtros a aplicar.</param>
@@ -88,14 +104,6 @@ namespace Million.WebApplication.Controllers
         //[Authorize]
         //public async Task<IActionResult> GetPropertiesAsync([FromBody] FiltersDTO filters) => Ok(await _propertyService.GetPropertiesAsync(filters));
 
-        /// <summary>
-        /// Método para modificar una propiedad.
-        /// </summary>
-        /// <param name="updateProperty">Información de la propiedad.</param>
-        /// <returns>Información modificada.</returns>
-        //[HttpPatch("UpdateProperty")]
-        //[Authorize]
-        //public async Task<IActionResult> UpdatePropertyAsync([FromBody] UpdatePropertyDTO updateProperty) => Ok(await _propertyService.UpdatePropertyAsync(updateProperty));
 
     }
 }

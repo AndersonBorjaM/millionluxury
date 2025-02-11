@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Million.Application.PropertyImages.CreatePropertyImage;
 
@@ -21,7 +22,7 @@ namespace Million.WebApplication.Controllers
         /// <param name="propertyImage">Información de la imagen</param>
         /// <returns>Información de la imagen registrada.</returns>
         [HttpPost("CreatePropertyImage")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> CreatePropertyImageAsync([FromForm] CreatePropertyImageRequest propertyImage, CancellationToken cancellationToken)
         {
             var result = await _sender.Send(new CreatePropertyImageCommand(
