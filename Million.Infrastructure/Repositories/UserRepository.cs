@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Million.Domain.Users;
-using Million.Repository.Base;
+using Million.Infrastructure.Abstractions.Base;
 using Million.Repository.Database;
 
 namespace Million.Infrastructure.Repositories

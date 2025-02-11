@@ -1,5 +1,6 @@
-﻿using Million.Domain.Properties;
-using Million.Repository.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using Million.Domain.Properties;
+using Million.Infrastructure.Abstractions.Base;
 using Million.Repository.Database;
 
 namespace Million.Infrastructure.Repositories
@@ -9,5 +10,9 @@ namespace Million.Infrastructure.Repositories
         public PropertyRepository(MillionContext context) : base(context)
         {
         }
+
+        public async Task<bool> IsPropertyExistsAsync(PropertyId propertyId, CancellationToken cancellationToken = default)
+            => await _table.AsNoTracking().AnyAsync(c => c.Id == propertyId, cancellationToken);
+
     }
 }

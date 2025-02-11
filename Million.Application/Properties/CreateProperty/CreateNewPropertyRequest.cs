@@ -1,4 +1,4 @@
-﻿using Million.Application.CreateOwner;
+﻿using Million.Application.Owners.CreateOwner;
 
 namespace Million.Application.Properties.CreateProperty
 {

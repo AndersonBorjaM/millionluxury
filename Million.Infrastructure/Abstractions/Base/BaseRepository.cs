@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Million.Domain.Abstractions;
 
-namespace Million.Repository.Base
+namespace Million.Infrastructure.Abstractions.Base
 {
     internal abstract class BaseRepository<TEntity, TEntityId>
         where TEntity : Entity<TEntityId> where TEntityId : class
@@ -34,7 +34,7 @@ namespace Million.Repository.Base
         public virtual async Task<bool> DeleteAsync(TEntity entity)
         {
             _table.Remove(entity);
-            return await Task.FromResult<bool>(true);
+            return await Task.FromResult(true);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Million.Repository.Base
         public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
             var resp = _table.Update(entity);
-            return await Task.FromResult<TEntity>(resp.Entity);
+            return await Task.FromResult(resp.Entity);
         }
 
         /// <summary>

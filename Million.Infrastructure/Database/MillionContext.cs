@@ -86,7 +86,7 @@ namespace Million.Repository.Database
                 builder.HasKey(c => c.Id);
 
                 builder.Property(p => p.Id).HasConversion(c => c!.Value, v => new(v)).HasColumnName("IdPropertyImage").ValueGeneratedOnAdd();
-                builder.Property(p => p.IdProperty).HasConversion(c => c.Value, v => new(v));
+                builder.Property(p => p.IdProperty).HasConversion(c => c.Value, v => new(v)).HasColumnName("IdProperty");
                 builder.Property(p => p.Enabled).HasConversion(c => c.Value, v => new(v));
                 builder.Property(p => p.File).HasConversion(c => c.Value, v => new(v)).HasColumnName("FileProperty");
             });
