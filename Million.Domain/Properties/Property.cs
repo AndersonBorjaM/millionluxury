@@ -70,6 +70,8 @@ namespace Million.Domain.Properties
         {
             Price = price;
 
+            RaiseDomainEvent(new PropertyChangePriceDomainEvent(Id!));
+
             return Result.Success();
         }
 
