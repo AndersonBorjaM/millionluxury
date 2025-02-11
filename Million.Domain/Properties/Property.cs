@@ -1,4 +1,5 @@
-﻿using Million.Domain.Abstractions;
+﻿using System.Runtime.CompilerServices;
+using Million.Domain.Abstractions;
 using Million.Domain.Owners;
 using Million.Domain.Properties.Events;
 using Million.Domain.Shared;
@@ -64,6 +65,14 @@ namespace Million.Domain.Properties
 
             return property;
         }
+
+        public Result ChangePrice(Price price) 
+        {
+            Price = price;
+
+            return Result.Success();
+        }
+
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Million.Application.Properties.ChangePrice;
 using Million.Application.Properties.CreateProperty;
 
 namespace Million.WebApplication.Controllers
@@ -65,9 +66,18 @@ namespace Million.WebApplication.Controllers
         /// </summary>
         /// <param name="changePrice">Codigo de la propiedad y nuevo precio</param>
         /// <returns>Información de la propiedad modificada</returns>
-        //[HttpPatch("ChangePricePropertyByCodeInternal")]
+        [HttpPatch("ChangePricePropertyById")]
         //[Authorize]
-        //public async Task<IActionResult> ChangePricePropertyByCodeInternalAsync([FromBody] ChangePricePropertyDTO changePrice) => Ok(await _propertyService.ChangePricePropertyByCodeInternalAsync(changePrice));
+        public async Task<IActionResult> ChangePricePropertyByCodeInternalAsync([FromBody] ChangePriceRequest changePrice, CancellationToken cancellationToken = default)
+        {
+            var result = await _sender.Send(new ChangePriceCommand(changePrice.NewPrice, changePrice.IdProperty), cancellationToken);
+
+            if (result.IsFailure)
+                return NotFound(result.Error);
+
+            return Ok(result.Value);
+
+        }
 
         /// <summary>
         /// Método para consultar las propiedades y filtrarlas.
