@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Million.Domain.Abstractions;
+﻿using Million.Domain.Abstractions;
 using Million.Domain.Owners;
 using Million.Domain.Properties.Events;
 using Million.Domain.Shared;
@@ -75,6 +74,26 @@ namespace Million.Domain.Properties
             return Result.Success();
         }
 
+        public Result UpdateProperty(
+            Name name,
+            Address address,
+            Price price,
+            Year year,
+            CodeInternal codeInternal,
+            OwnerId idOwner
+            )
+        {
+            Name = name;
+            Address = address;
+            Price = price;
+            Year = year;
+            CodeInternal = codeInternal;
+            IdOwner = idOwner;
+
+            RaiseDomainEvent(new UpdatePropertyDomainEvent(Id!));
+         
+            return Result.Success();
+        }
 
     }
 }

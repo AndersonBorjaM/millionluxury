@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Million.Application.Properties.ChangePrice;
 using Million.Application.Properties.CreateProperty;
+using Million.Application.Properties.UpdateProperty;
 
 namespace Million.WebApplication.Controllers
 {
@@ -80,6 +81,31 @@ namespace Million.WebApplication.Controllers
         }
 
         /// <summary>
+        /// Método para modificar una propiedad.
+        /// </summary>
+        /// <param name="updateProperty">Información de la propiedad.</param>
+        /// <returns>Información modificada.</returns>
+        [HttpPatch("UpdateProperty")]
+        //[Authorize]
+        public async Task<IActionResult> UpdatePropertyAsync([FromBody] UpdatePropertyRequest updateProperty, CancellationToken cancellationToken) 
+        {
+            var result = await _sender.Send(new UpdatePropertyCommand(
+                updateProperty.PropertyId,
+                updateProperty.Name,
+                updateProperty.Address,
+                updateProperty.Price,
+                updateProperty.Year,
+                updateProperty.CodeInternal,
+                updateProperty.IdOwner
+                ), cancellationToken);
+
+            if (result.IsFailure) return NotFound(result.Error);
+
+            return Ok(result.Value);
+        }
+        
+
+        /// <summary>
         /// Método para consultar las propiedades y filtrarlas.
         /// </summary>
         /// <param name="filters">Información de los filtros a aplicar.</param>
@@ -88,14 +114,6 @@ namespace Million.WebApplication.Controllers
         //[Authorize]
         //public async Task<IActionResult> GetPropertiesAsync([FromBody] FiltersDTO filters) => Ok(await _propertyService.GetPropertiesAsync(filters));
 
-        /// <summary>
-        /// Método para modificar una propiedad.
-        /// </summary>
-        /// <param name="updateProperty">Información de la propiedad.</param>
-        /// <returns>Información modificada.</returns>
-        //[HttpPatch("UpdateProperty")]
-        //[Authorize]
-        //public async Task<IActionResult> UpdatePropertyAsync([FromBody] UpdatePropertyDTO updateProperty) => Ok(await _propertyService.UpdatePropertyAsync(updateProperty));
 
     }
 }
