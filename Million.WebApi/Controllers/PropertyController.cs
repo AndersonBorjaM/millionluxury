@@ -24,7 +24,7 @@ namespace Million.WebApplication.Controllers
         /// <param name="property">Información de la propiedad.</param>
         /// <returns>Información de la propiedad registrada.</returns>
         [HttpPost("CreateProperty")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> CreateProperty([FromBody] CreateNewPropertyRequest property, CancellationToken cancellationToken)
         {
             var result = await _sender.Send(new CreateNewPropertyCommand(
@@ -53,22 +53,12 @@ namespace Million.WebApplication.Controllers
         }
 
         /// <summary>
-        /// Método para cambiar el precio de una propiedad basado en el ID de la propiedad.
-        /// </summary>
-        /// <param name="changePrice">ID Propiedad y nuevo precio.</param>
-        /// <returns>Información de la propiedad modificada.</returns>
-        //[HttpPatch("ChangePricePropertyById")]
-        //[Authorize]
-        //public async Task<IActionResult> ChangePricePropertyByIdAsync([FromBody] ChangePricePropertyDTO changePrice) => Ok(await _propertyService.ChangePricePropertyByIdAsync(changePrice));
-
-
-        /// <summary>
         /// Método para cambiar el precio de una propiedad basado en el codigo interno de la propiedad.
         /// </summary>
         /// <param name="changePrice">Codigo de la propiedad y nuevo precio</param>
         /// <returns>Información de la propiedad modificada</returns>
         [HttpPatch("ChangePricePropertyById")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> ChangePricePropertyByCodeInternalAsync([FromBody] ChangePriceRequest changePrice, CancellationToken cancellationToken = default)
         {
             var result = await _sender.Send(new ChangePriceCommand(changePrice.NewPrice, changePrice.IdProperty), cancellationToken);
@@ -86,7 +76,7 @@ namespace Million.WebApplication.Controllers
         /// <param name="updateProperty">Información de la propiedad.</param>
         /// <returns>Información modificada.</returns>
         [HttpPatch("UpdateProperty")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> UpdatePropertyAsync([FromBody] UpdatePropertyRequest updateProperty, CancellationToken cancellationToken) 
         {
             var result = await _sender.Send(new UpdatePropertyCommand(
