@@ -1,4 +1,4 @@
 ﻿namespace Million.Application.Users.LoginUser
 {
-    public record class LoginUserRequest(string UserNme, string Password);
+    public record class LoginUserRequest(string UserName, string Password);
 }

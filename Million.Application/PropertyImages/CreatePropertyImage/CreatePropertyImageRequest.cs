@@ -4,7 +4,7 @@ namespace Million.Application.PropertyImages.CreatePropertyImage
 {
     public record class CreatePropertyImageRequest(
         int IdProperty,
-            IFormFile? File,
-            bool Enabled = false
+        IFormFile? FileProperty,
+        bool Enabled = false
         );
 }

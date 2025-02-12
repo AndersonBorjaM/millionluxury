@@ -16,9 +16,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer"),
             ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience"),
@@ -26,7 +23,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -52,7 +49,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.UseAuthentication();
+//app.UseAuthentication();
 
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 

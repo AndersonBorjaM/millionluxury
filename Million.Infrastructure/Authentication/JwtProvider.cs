@@ -22,8 +22,8 @@ namespace Million.Infrastructure.Authentication
         public Task<string> GenerateToken(User user)
         {
             var claims = new List<Claim> {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id!.ToString()),
-                new Claim(JwtRegisteredClaimNames.Name, user.UserName!.ToString())
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id!.Value.ToString()),
+                new Claim(JwtRegisteredClaimNames.Name, user.UserName!.Value.ToString())
             };
 
             var sigingCredentials = new SigningCredentials(
@@ -32,12 +32,11 @@ namespace Million.Infrastructure.Authentication
                 );
 
             var token = new JwtSecurityToken(
-                _jwtOptions.Issuer,
-                _jwtOptions.Audience,
-                claims,
-                DateTime.UtcNow,
-                DateTime.UtcNow.AddDays(1),
-                sigingCredentials
+                issuer: _jwtOptions.Issuer,
+                audience: _jwtOptions.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(1),
+                signingCredentials: sigingCredentials
                 );
 
             return Task.FromResult<string>(new JwtSecurityTokenHandler().WriteToken(token));

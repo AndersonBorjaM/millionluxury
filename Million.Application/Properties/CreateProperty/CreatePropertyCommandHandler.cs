@@ -5,13 +5,13 @@ using Million.Domain.Properties;
 
 namespace Million.Application.Properties.CreateProperty
 {
-    internal sealed class CreateNewPropertyCommandHandler : ICommandHandler<CreateNewPropertyCommand, string>
+    internal sealed class CreatePropertyCommandHandler : ICommandHandler<CreatePropertyCommand, string>
     {
         private readonly IOwnerRepository _ownerRepository;
         private readonly IPropertyRepository _propertyRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateNewPropertyCommandHandler(
+        public CreatePropertyCommandHandler(
             IOwnerRepository ownerRepository,
             IPropertyRepository propertyRepository,
             IUnitOfWork unitOfWork
@@ -22,7 +22,7 @@ namespace Million.Application.Properties.CreateProperty
             this._unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<string>> Handle(CreateNewPropertyCommand request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(CreatePropertyCommand request, CancellationToken cancellationToken)
         {
             var ownerExists = await _ownerRepository.IsOwnerExistsAsync(new OwnerId(request.Owner.IdOwner), cancellationToken);
 

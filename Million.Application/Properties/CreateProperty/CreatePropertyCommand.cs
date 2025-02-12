@@ -3,7 +3,7 @@ using Million.Application.Abstractions.Messaging;
 
 namespace Million.Application.Properties.CreateProperty
 {
-    public record CreateNewPropertyCommand(
+    public record CreatePropertyCommand(
             PropertyDto Property,
             OwnerDto Owner
         ) : ICommand<string>;
