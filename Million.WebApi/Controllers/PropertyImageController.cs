@@ -28,11 +28,11 @@ namespace Million.WebApplication.Controllers
             var result = await _sender.Send(new CreatePropertyImageCommand(
                 propertyImage.IdProperty,
                 propertyImage.Enabled,
-                propertyImage.File
+                propertyImage.FileProperty
                 ), cancellationToken);
 
             if (result.IsFailure)
-                return NotFound(result.Error);
+                return BadRequest(result.Error);
 
             return Ok(result.Value);
 

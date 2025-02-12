@@ -26,9 +26,9 @@ namespace Million.WebApplication.Controllers
         /// <returns>Información de la propiedad registrada.</returns>
         [HttpPost("CreateProperty")]
         [Authorize]
-        public async Task<IActionResult> CreateProperty([FromBody] CreateNewPropertyRequest property, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateProperty([FromBody] CreatePropertyRequest property, CancellationToken cancellationToken)
         {
-            var result = await _sender.Send(new CreateNewPropertyCommand(
+            var result = await _sender.Send(new CreatePropertyCommand(
                 new PropertyDto
                 {
                     Address = property.Address,
@@ -47,7 +47,7 @@ namespace Million.WebApplication.Controllers
                 ), cancellationToken);
 
             if (result.IsFailure)
-                return NotFound(result.Error);
+                return BadRequest(result.Error);
 
 
             return Ok(result.Value);
@@ -65,7 +65,7 @@ namespace Million.WebApplication.Controllers
             var result = await _sender.Send(new ChangePriceCommand(changePrice.NewPrice, changePrice.IdProperty), cancellationToken);
 
             if (result.IsFailure)
-                return NotFound(result.Error);
+                return BadRequest(result.Error);
 
             return Ok(result.Value);
 
@@ -90,7 +90,7 @@ namespace Million.WebApplication.Controllers
                 updateProperty.IdOwner
                 ), cancellationToken);
 
-            if (result.IsFailure) return NotFound(result.Error);
+            if (result.IsFailure) return BadRequest(result.Error);
 
             return Ok(result.Value);
         }
@@ -102,12 +102,12 @@ namespace Million.WebApplication.Controllers
         /// <param name="filters">Información de los filtros a aplicar.</param>
         /// <returns>Listado de propiedades.</returns>
         [HttpPost("GetPropertiesWithFilter")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetPropertiesAsync([FromBody] ListPropertiesRequest filters) 
         {
-           var result = await  _sender.Send(new ListPropertiesWithFilterQuery(filters.Name, filters.Address, filters.Price, filters.Year, filters.CodeInternal));
+           var result = await  _sender.Send(new ListPropertiesWithFilterQuery(filters.Name, filters.Address, filters.Year, filters.CodeInternal));
 
-            if (result.IsFailure) return NotFound(result.Error);
+            if (result.IsFailure) return BadRequest(result.Error);
 
             return Ok(result.Value);
         }

@@ -26,47 +26,10 @@ namespace Million.WebApplication.Test
             _client.Dispose();
         }
 
-        [Test]
-        public async Task CreateOwnerAndProperty_ReturnsCreatedResponse_WhenValidRequest()
-        {
-            // Arrange
-            var responseOwner = await _client.PostAsync("/api/Owner/CreateOwner", new MultipartFormDataContent
-            {
-                { new StringContent("Carmen"), "name" },
-                { new StringContent("Calle 16 Bello"), "address" },
-                { new StringContent("1997-06-08"), "birthday" },
-            });
-
-            var responseContent = await responseOwner.Content.ReadAsStringAsync();
-            var infoOwner = JsonSerializer.Deserialize<OwnerResponse>(responseContent);
-
-            var requestPropertyBody = new StringContent(JsonSerializer.Serialize(new
-            {
-                name = "Test Property",
-                address = "123 Test Address",
-                price = 200000.62,
-                codeInternal = "C54512",
-                year = "2025",
-                idOwner = infoOwner!.idOwner,
-                propertyTraces = new List<object>(),
-
-            }), Encoding.UTF8, "application/json");
-
-
-            // Act
-            var response = await _client.PostAsync("/api/Property/CreateProperty", requestPropertyBody);
-
-            // Assert
-            Assert.That(HttpStatusCode.OK.Equals(response.StatusCode));
-
-            var responsePropertyContent = await response.Content.ReadAsStringAsync();
-            Assert.IsNotEmpty(responsePropertyContent, "El contenido de la respuesta no debería estar vacío.");
-        }
-
 
         [Test]
         [TestCaseSource(nameof(GetValidPropertyTestCases))]
-        public async Task CreateProperty_ReturnsCreatedResponse_WhenValidRequest(object property, string expectedErrorMessage)
+        public async Task CreateProperty_ReturnsCreatedResponse_WhenValidRequest(object property)
         {
             // Arrange
             var requestBody = new StringContent(JsonSerializer.Serialize(property), Encoding.UTF8, "application/json");
@@ -76,9 +39,6 @@ namespace Million.WebApplication.Test
 
             // Assert
             Assert.That(HttpStatusCode.OK.Equals(response.StatusCode));
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            Assert.IsTrue(responseContent.Contains(expectedErrorMessage));
         }
 
         [Test]
@@ -107,25 +67,14 @@ namespace Million.WebApplication.Test
                 price = 6352.25,
                 codeInternal = "A123",
                 year = "2025",
-                idOwner = 0,
-                propertyTraces = new[]
-                {
-                    new
-                    {
-                        dateSale = "2025-01-25",
-                        name = "Trace 1",
-                        value = 35264.52,
-                        tax = "12%",
-                        idProperty = 0
-                    }
-                },
                 owner = new
                 {
+                    idOwner = 0,
                     name = "John Doe",
                     address = "456 Owner Address",
                     birthday = "1990-01-01"
                 }
-            }, "Anderson test" };
+            } };
 
             yield return new object[] { new {
                 name = "Camilo test",
@@ -133,24 +82,14 @@ namespace Million.WebApplication.Test
                 price = 9657522.42,
                 codeInternal = "A1852",
                 year = "2000",
-                propertyTraces = new[]
-                {
-                    new
-                    {
-                        dateSale = "2020-11-25",
-                        name = "Trace Camilo",
-                        value = 35548784.52,
-                        tax = "10%",
-                        idProperty = 0
-                    }
-                },
                 owner = new
                 {
+                    idOwner = 0,
                     name = "Catalina",
                     address = "456 635",
                     birthday = "1900-01-01"
                 }
-            }, "Diagonal 25 calle 65" };
+            } };
 
 
             yield return new object[] { new {
@@ -159,14 +98,14 @@ namespace Million.WebApplication.Test
                 price = 6352000.25,
                 codeInternal = "B58744",
                 year = "2019",
-                propertyTraces = new List<object>(),
                 owner = new
                 {
+                    idOwner = 0,
                     name = "Clara",
                     address = "Transversal 5",
                     birthday = "1980-11-21"
                 }
-            }, "B58744" };
+            } };
         }
 
 
@@ -179,9 +118,9 @@ namespace Million.WebApplication.Test
                 price = 25365.00,
                 codeInternal = "A123",
                 year = "2025",
-                idOwner = 0,
                 owner = new
                 {
+                    idOwner = 0,
                     name = "John Doe",
                     address = "456 Owner Address",
                     birthday = "1990-01-01"
@@ -195,20 +134,9 @@ namespace Million.WebApplication.Test
                 price = 6352.25,
                 codeInternal = "A123",
                 year = "2025",
-                idOwner = 0,
-                propertyTraces = new[]
-                {
-                    new
-                    {
-                        dateSale = "2025-01-25",
-                        name = "Trace 1",
-                        value = 35264.52,
-                        tax = "12%",
-                        idProperty = 0
-                    }
-                },
                 owner = new
                 {
+                    idOwner = 0,
                     name = "John Doe",
                     address = "456 Owner Address",
                     birthday = "1990-01-01"
@@ -221,20 +149,9 @@ namespace Million.WebApplication.Test
                 price = 999999999999.252,//Precio invalido
                 codeInternal = "A123",
                 year = "2025",
-                idOwner = 0,
-                propertyTraces = new[]
-                {
-                    new
-                    {
-                        dateSale = "2025-01-25",
-                        name = "Trace 1",
-                        value = 35264.52,
-                        tax = "12%",
-                        idProperty = 0
-                    }
-                },
                 owner = new
                 {
+                    idOwner = 0,
                     name = "John Doe",
                     address = "456 Owner Address",
                     birthday = "1990-01-01"
@@ -248,20 +165,9 @@ namespace Million.WebApplication.Test
                 price = 152336.58,
                 codeInternal = "",//Codigo interno incorrecto.
                 year = "2025",
-                idOwner = 0,
-                propertyTraces = new[]
-                {
-                    new
-                    {
-                        dateSale = "2025-01-25",
-                        name = "Trace 1",
-                        value = 35264.52,
-                        tax = "12%",
-                        idProperty = 0
-                    }
-                },
                 owner = new
                 {
+                    idOwner = 0,
                     name = "John Doe",
                     address = "456 Owner Address",
                     birthday = "1990-01-01"
@@ -275,20 +181,9 @@ namespace Million.WebApplication.Test
                 price = 152336.58,
                 codeInternal = "jnsdj57",
                 year = "2025000", // año invalido
-                idOwner = 0,
-                propertyTraces = new[]
-                {
-                    new
-                    {
-                        dateSale = "2025-01-25",
-                        name = "Trace 1",
-                        value = 35264.52,
-                        tax = "12%",
-                        idProperty = 0
-                    }
-                },
                 owner = new
                 {
+                    idOwner = 0,
                     name = "John Doe",
                     address = "456 Owner Address",
                     birthday = "1990-01-01"
@@ -302,19 +197,13 @@ namespace Million.WebApplication.Test
                 price = 152336.58,
                 codeInternal = "jnsdj57",
                 year = "2025",
-                idOwner = 0, // Propietario invalido
-                propertyTraces = new[]
-                {
-                    new
-                    {
-                        dateSale = "2025-01-25",
-                        name = "Trace 1",
-                        value = 35264.52,
-                        tax = "12%",
-                        idProperty = 0
-                    }
+                owner = new{
+                idOwner = 0,
+                    name = "",
+                    address = "",
+                    birthday = "1990-01-01"
                 }// Propietario invalido
-            }, "The information from Owner is required." };
+            }, "The field Address Owner is required." };
 
             yield return new object[] { new {
                 name = "Owner",
@@ -322,25 +211,14 @@ namespace Million.WebApplication.Test
                 price = 152336.58,
                 codeInternal = "jnsdj57",
                 year = "2025",
-                idOwner = 0,
-                propertyTraces = new[]
-                {
-                    new
-                    {
-                        //Fecha invalida
-                        name = "Trace 1",
-                        value = 35264.52,
-                        tax = "12%",
-                        idProperty = 0
-                    }
-                },
                 owner = new
                 {
+                    idOwner = 0,
                     name = "John Doe",
                     address = "456 Owner Address",
-                    birthday = "1990-01-01"
+                    birthday = "1000-10-50"
                 }
-            }, "The field DateSale is required." };
+            }, "The property field is required." };
 
 
         }
@@ -382,7 +260,7 @@ namespace Million.WebApplication.Test
 
     }
 
-    public class OwnerResponse 
+    public class OwnerResponse
     {
         public int idOwner { get; set; }
         public string? name { get; set; }

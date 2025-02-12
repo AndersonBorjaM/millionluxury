@@ -33,7 +33,7 @@ namespace Million.WebApplication.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginUserRequest loginUser, CancellationToken cancellationToken)
         {
-            var result = await _sender.Send(new LoginCommand(loginUser.UserNme, loginUser.Password), cancellationToken);
+            var result = await _sender.Send(new LoginCommand(loginUser.UserName, loginUser.Password), cancellationToken);
             
             if (result.IsFailure)
                 return Unauthorized(result.Error);

@@ -2,7 +2,7 @@
 
 namespace Million.Application.Properties.CreateProperty
 {
-    public record CreateNewPropertyRequest(
+    public record CreatePropertyRequest(
             string Name,
             string Address,
             decimal Price,

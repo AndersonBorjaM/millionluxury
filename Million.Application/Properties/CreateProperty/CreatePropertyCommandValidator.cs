@@ -2,9 +2,9 @@
 
 namespace Million.Application.Properties.CreateProperty
 {
-    internal class CreateNewPropertyCommandValidator : AbstractValidator<CreateNewPropertyCommand>
+    public class CreatePropertyCommandValidator : AbstractValidator<CreatePropertyCommand>
     {
-        public CreateNewPropertyCommandValidator()
+        public CreatePropertyCommandValidator()
         {
             RuleFor(x => x.Property.Address).NotNull().NotEmpty().WithMessage("The field Address is required.")
                 .MaximumLength(500).WithMessage("The maximum length of the Address field is 500.");
@@ -18,8 +18,5 @@ namespace Million.Application.Properties.CreateProperty
                 .MaximumLength(250).WithMessage("The maximum length of the Name field is 250.");
             RuleFor(x => x.Owner).NotNull().SetValidator(new OwnerDtoValidator()); 
         }
-
-       
-
     }
 }

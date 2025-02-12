@@ -57,20 +57,9 @@ namespace Million.WebApplication.Test
                 price = 6352.25,
                 codeInternal = "A123",
                 year = "2025",
-                idOwner = 0,
-                propertyTraces = new[]
-                {
-                    new
-                    {
-                        dateSale = "2025-01-25",
-                        name = "Trace 1",
-                        value = 35264.52,
-                        tax = "12%",
-                        idProperty = 0
-                    }
-                },
                 owner = new
                 {
+                    idOwner = 0,
                     name = "John Doe",
                     address = "456 Owner Address",
                     birthday = "1990-01-01"
@@ -80,13 +69,12 @@ namespace Million.WebApplication.Test
             var responseProperty = await _client.PostAsync("/api/Property/CreateProperty", requestPropertyBody);
 
             var responseContent = await responseProperty.Content.ReadAsStringAsync();
-            var infoProperty = JsonSerializer.Deserialize<PropertyResponse>(responseContent);
 
 
 
             var formData = new MultipartFormDataContent
             {
-                { new StringContent(infoProperty!.idProperty.ToString()), "idProperty" },
+                { new StringContent(responseContent!), "idProperty" },
                 { new StringContent("true"), "enabled" },
                 { new StreamContent(imageStream), "fileProperty", "photo.jpg" }
             };
@@ -104,8 +92,9 @@ namespace Million.WebApplication.Test
 
             var formData = new MultipartFormDataContent
             {
-                { new StringContent("10"), "idProperty" },
+                { new StringContent("1"), "idProperty" },
                 { new StringContent("true"), "enabled" },
+                { new StringContent(""), "fileProperty" },
             };
 
             // Act
