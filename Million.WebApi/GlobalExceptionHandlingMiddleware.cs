@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Net;
 using System.Text.Json;
+using Million.Application.Exceptions;
+using Million.Domain.Abstractions;
 
 namespace Million.WebApplication
 {
@@ -24,15 +26,19 @@ namespace Million.WebApplication
             {
                 await HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest, ex.Message);
             }
+            catch (ValidationException ex) 
+            {
+                await HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest, ex.Errors);
+            }
             catch (InvalidOperationException ex)
-            { 
+            {
                 await HandleExceptionAsync(context, ex, HttpStatusCode.ExpectationFailed, ex.Message);
             }
             catch (Exception ex)
             {
                 await HandleExceptionAsync(context, ex, HttpStatusCode.InternalServerError, "Ha ocurrido un erro por favor intentar mas tarde.");
             }
-        }
+        }   
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception, HttpStatusCode statusCode, string message)
         {
@@ -48,5 +54,21 @@ namespace Million.WebApplication
 
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
+
+        private Task HandleExceptionAsync(HttpContext context, Exception exception, HttpStatusCode statusCode, IEnumerable<ValidationError> errors)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)statusCode;
+
+            var response = new
+            {
+                StatusCode = context.Response.StatusCode,
+                Message = errors.Select(x => x.ErrorMessage).Aggregate((current, next) => $"{current}\n{next}"),
+                Details = exception.StackTrace
+            };
+
+            return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
+
     }
 }

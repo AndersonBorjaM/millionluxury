@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Million.WebApplication.Test
@@ -45,7 +41,6 @@ namespace Million.WebApplication.Test
             return tokenResponse ?? throw new Exception("No se pudo obtener el token.");
         }
 
-
         [Test]
         public async Task GetPropertiesWithFilter_ValidRequest_ReturnListProperties()
         {
@@ -53,12 +48,10 @@ namespace Million.WebApplication.Test
             // Arrange
             var requestBody = new StringContent(JsonSerializer.Serialize(new
             {
-                propertyName = "Name",
-                propertyValue = "ander",
-                propertyOrderBy = "IdProperty",
-                ascendingOrderBy = true,
-                startDate = "2025-01-28",
-                endDate = "2025-01-28"
+                name = "Dora",
+                address = "",
+                year = "",
+                codeInternal = "",
             }), Encoding.UTF8, "application/json");
 
             // Act
@@ -67,9 +60,8 @@ namespace Million.WebApplication.Test
             // Assert
             Assert.That(HttpStatusCode.OK.Equals(response.StatusCode));
             var responseContent = await response.Content.ReadAsStringAsync();
-            var listProperties = JsonSerializer.Deserialize<List<PropertyResponse>>(responseContent);
 
-            Assert.That(listProperties?.Select(x => x.idProperty).ToList(), Is.Ordered.Ascending);
+            Assert.That(responseContent.Contains("Dora"));
         }
 
 
